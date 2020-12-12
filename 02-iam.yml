@@ -1,0 +1,42 @@
+Description: >
+  Udacity Cloud DevOps Engineer Nanodegree
+  Project 2: Deploy a highly available web app
+  Author: Lukas Rieger
+  Date: 12-11-2020
+  Part 2/3: IAM role
+
+Parameters:
+  EnvironmentName:
+    Description: Environment name used as prefix
+    Type: String
+
+Resources:
+  IAMRoleWebApp:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/AmazonS3FullAccess'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: 'Allow'
+            Principal:
+              Service:
+                - 'ec2.amazonaws.com'
+            Action:
+              - 'sts:AssumeRole'
+      Path: '/'
+
+  IAMWebAppS3IP:
+    Type: 'AWS::IAM::InstanceProfile'
+    Properties:
+      Path: '/'
+      Roles:
+        - Ref: 'IAMRoleWebApp'
+
+Outputs:
+  IAMRoleWebApp:
+    Description: 'EC2 instances can access S3'
+    Value: !Ref IAMWebAppS3IP
+    Export:
+      Name: !Sub ${EnvironmentName}-IAM-NAME
