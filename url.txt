@@ -1,1 +1,0 @@
-http://app-webappl-10w3ij3oa9pv5-558113375.eu-central-1.elb.amazonaws.com
